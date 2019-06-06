@@ -1,0 +1,8 @@
+#!/bin/sh
+
+kubectl get service ecsdemo-frontend -o wide
+
+ELB=$(kubectl get service ecsdemo-frontend -o json | jq -r '.status.loadBalancer.ingress[].hostname')
+
+echo "\n---"
+echo "Service Address: $ELB"

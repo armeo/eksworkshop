@@ -1,3 +1,6 @@
 .terraform
 terraform.tfstate
 *.swp
+
+# Sources cloned runtime
+04-DeployTheExampleMicroservices/service-sources

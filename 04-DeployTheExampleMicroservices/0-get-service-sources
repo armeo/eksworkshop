@@ -1,0 +1,14 @@
+#!/bin/sh
+
+mkdir -p service-sources
+
+cd service-sources
+
+echo "Get ecsdemo-nodejs"
+git clone https://github.com/brentley/ecsdemo-nodejs.git
+
+echo "Get ecsdemo-crystal"
+git clone https://github.com/brentley/ecsdemo-crystal.git
+
+echo "Get ecsdemo-frontend"
+git clone https://github.com/brentley/ecsdemo-frontend.git

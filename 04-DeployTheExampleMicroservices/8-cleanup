@@ -1,0 +1,14 @@
+#!/bin/sh
+
+SERVICES="ecsdemo-frontend ecsdemo-crystal ecsdemo-nodejs"
+
+CURRENT_PATH=$PWD
+
+for s in $SERVICES; do
+  cd service-sources/$s
+
+  kubectl delete -f kubernetes/deployment.yaml
+  kubectl delete -f kubernetes/service.yaml
+
+  cd $CURRENT_PATH
+done
