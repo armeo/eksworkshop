@@ -1,0 +1,17 @@
+#!/bin/sh
+
+JQ=$(which jq)
+
+if [ -z "$JQ" ]; then
+  echo "jq is required, please install"
+  exit 1
+fi
+
+INSTANCE_PROFILE_NAME=$(aws iam list-instance-profiles | $JQ -r '.InstanceProfiles[].InstanceProfileName' | grep eksworkshop)
+
+INSTANCE_PROFILE_ARN=$(aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME | $JQ -r '.InstanceProfile.Arn')
+
+ROLE_NAME=$(aws iam get-instance-profile --instance-profile-name $INSTANCE_PROFILE_NAME | $JQ -r '.InstanceProfile.Roles[] | .RoleName')
+
+echo "export ROLE_NAME=${ROLE_NAME}"
+echo "export INSTANCE_PROFILE_ARN=${INSTANCE_PROFILE_ARN}"
