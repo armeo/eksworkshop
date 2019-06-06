@@ -1,5 +1,6 @@
 #!/bin/sh
 
+OUTPUT=$(mktemp -u)
 export KUBECONFIG=$PWD/../0-TerraformEKS/kubeconfig_eksworkshop
 
 if [ ! -f $KUBECONFIG ]; then
@@ -8,10 +9,38 @@ if [ ! -f $KUBECONFIG ]; then
   exit 1
 fi
 
-echo "Get worker nodes ..."
-kubectl get nodes
+check_status() {
+  text=$1
+  status=$2
 
-echo "Get running pods ..."
-kubectl get pods --all-namespaces
+  test $status -eq 0 && \
+    echo -n "[\e[32mPassed\e[39m]" || echo -n "[\e[31mFailed\e39m]"
+  echo " Check for: $text "
+}
+
+should_include() {
+  text=$1
+  result=$(cat - | grep -w "$text")
+
+  test -n "$result"
+  check_status $text $?
+}
+
+echo "Get worker nodes ...\n"
+kubectl get nodes | tee $OUTPUT
+echo
+cat $OUTPUT | should_include "Ready"
+
+echo
+
+echo "Get running pods ...\n"
+kubectl get pods --all-namespaces | tee $OUTPUT
+echo
+cat $OUTPUT | should_include "kube-system.*Running"
+cat $OUTPUT | should_include "aws-node.*Running"
+cat $OUTPUT | should_include "coredns.*Running"
+cat $OUTPUT | should_include "kube-proxy.*Running"
+
+rm -f $OUTPUT
 
 exit 0
