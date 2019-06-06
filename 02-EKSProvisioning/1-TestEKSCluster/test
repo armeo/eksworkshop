@@ -1,0 +1,17 @@
+#!/bin/sh
+
+export KUBECONFIG=$PWD/../0-TerraformEKS/kubeconfig_eksworkshop
+
+if [ ! -f $KUBECONFIG ]; then
+  echo -n "Config file '$KUBECONFIG' does not exist, "
+  echo "please make sure that the cluster has been provisioned proplerly"
+  exit 1
+fi
+
+echo "Get worker nodes ..."
+kubectl get nodes
+
+echo "Get running pods ..."
+kubectl get pods --all-namespaces
+
+exit 0
