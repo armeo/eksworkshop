@@ -1,0 +1,3 @@
+#!/bin/sh
+
+firefox http://localhost:8888/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/

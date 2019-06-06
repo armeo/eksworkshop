@@ -1,0 +1,5 @@
+#!/bin/sh -x
+
+PORT=${1:-8888}
+
+kubectl proxy --port=$PORT --address='0.0.0.0' --disable-filter=true &

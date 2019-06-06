@@ -1,0 +1,3 @@
+#!/bin/sh
+
+aws-iam-authenticator token -i eksworkshop --token-only
