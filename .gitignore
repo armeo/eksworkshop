@@ -1,6 +1,7 @@
 .terraform
 terraform.tfstate
 *.swp
+.DS_Store
 
 # Sources cloned runtime
 04-DeployTheExampleMicroservices/service-sources
